@@ -17,20 +17,22 @@ app.use(cors({ origin: true, credentials: true }));
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+})
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.log(err));
 
-// Routes
+// API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/profile', require('./routes/profile'));
 
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Catch-all route for SPA (Express 5 syntax)
-app.get('/:any(.*)', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+// Catch-all route for SPA (Express 5 compatible)
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'));
 });
 
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
