@@ -28,8 +28,8 @@ app.use('/api/profile', require('./routes/profile'));
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Catch-all route for SPA (React/Vue/Angular)
-app.use((req, res) => {
+// ✅ Fix for catch-all (for React/Vue SPA)
+app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
