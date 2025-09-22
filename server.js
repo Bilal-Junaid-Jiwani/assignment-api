@@ -21,16 +21,16 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 
-// API Routes
+// Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/profile', require('./routes/profile'));
 
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Catch-all route for SPA (Express 5 compatible)
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'));
+// Catch-all route for SPA (React/Vue/Angular)
+app.use((req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
 // Start server
